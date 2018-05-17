@@ -25,13 +25,19 @@ export class HomePage {
       for (const key in value) {
         if (value.hasOwnProperty(key)) {
           const element = value[key];
-
+          console.log({ 'username': key });
+          
           this.service.getBalance(key, element).subscribe((data: Array<any>) => this.prestoData.push({ 'username': key, 'cardData': data }));
 
         }
       }
     });
 
+  }
+
+
+  public clickHandler(usertable: {}[]) {
+    this.navCtrl.push('DetailsPage', {userData: usertable});    
   }
 
 }
