@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 @IonicPage()
@@ -12,7 +12,7 @@ export class AddPage {
   public username: string;
   public password: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
@@ -25,8 +25,20 @@ export class AddPage {
     if (accounts == null) { accounts = {}; }
     accounts[this.username] = this.password;
 
-    await this.storage.set('accounts', accounts);
-    console.log('saved username and password');
+    try {
+      await this.storage.set('accounts', accounts);
+      this.alertCtrl.create({
+        title: 'Added New Account',
+        buttons: ['OK']
+      }).present();      
+    } catch (error) {
+      this.alertCtrl.create({
+        title: 'Error with adding new accounts',
+        subTitle: error.getMessage(),
+        buttons: ['OK']
+      }).present(); 
+    }
+
 
   }
 
