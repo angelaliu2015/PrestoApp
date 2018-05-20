@@ -9,33 +9,41 @@
 
 <ion-content>
   <ion-card>
-    <ion-grid>
-      <ion-row *ngFor="let row of userTable; let i = index" nowrap justify-content-left>
-        <ion-col>
-          {{row[0]}}
-        </ion-col>
-        <ion-col>
-          {{row[1]}}
-        </ion-col>
-        <ion-col>
-          {{row[2]}}
-        </ion-col>
-        <ion-col>
-          {{row[3]}}
-        </ion-col>
-        <ion-col>
-          {{row[4]}}
-        </ion-col>
-        <ion-col>
-          {{row[5]}}
-        </ion-col>
-        <ion-col>
-          {{row[6]}}
-        </ion-col>
-        <ion-col>
-          {{row[7]}}
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <table>
+      <ng-container *ngFor="let row of userTable; let i = index">
+        <tr *ngIf="i !=0">
+
+          <td>
+            {{row[0]}}
+          </td>
+          <td>
+            <ng-container *ngIf="row[1] == 'Toronto Transit Commission'; else elseTemplate">
+              TTC
+            </ng-container>
+            <ng-template #elseTemplate>
+              {{row[1]}}
+            </ng-template>
+          </td>
+          <td>
+            {{row[2]}}
+          </td>
+          <td>
+            {{row[3]}}
+          </td>
+          <td>
+            {{row[4]}}
+          </td>
+          <td>
+            {{row[5]}}
+          </td>
+          <td>
+            {{row[6]}}
+          </td>
+          <td>
+            {{row[7]}}
+          </td>
+        </tr>
+      </ng-container>
+    </table>
   </ion-card>
 </ion-content>
