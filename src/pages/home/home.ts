@@ -1,7 +1,9 @@
+import {forkJoin} from 'rxjs/observable/forkJoin';
 import { Component } from '@angular/core';
 import { NavController, IonicPage } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { ServiceProvider } from '../../providers/service/service';
+import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
 @Component({
@@ -22,22 +24,25 @@ export class HomePage {
    */
   constructor(public navCtrl: NavController, private service: ServiceProvider, private storage: Storage) {
     this.storage.get('accounts').then((value: object) => {
+      
       for (const key in value) {
         if (value.hasOwnProperty(key)) {
-          const element = value[key];
-          console.log({ 'username': key });
-          
-          this.service.getBalance(key, element).subscribe((data: Array<any>) => this.prestoData.push({ 'username': key, 'cardData': data }));
-
+          this.service.getBalance(key, value[key]).subscribe((data: Array<any>) => this.prestoData.push({ 'username': key, 'cardData': data }));
         }
       }
     });
 
   }
 
-
   public clickHandler(usertable: {}[]) {
     this.navCtrl.push('DetailsPage', {userData: usertable});    
+  }
+
+  /**
+   * addNewAccount
+   */
+  public addNewAccount() {
+    this.navCtrl.push('AccountsPage');
   }
 
 }
